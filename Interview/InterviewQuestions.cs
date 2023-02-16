@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -60,7 +61,7 @@ namespace Interview
         {
             StringBuilder result = new StringBuilder();
 
-            string cleanText = Regex.Replace(text, @"[^a-zA-Z]", "");
+            string cleanText = Regex.Replace(text, @"[^a-zA-Z]", ""); //get rid of everything but letters
 
             int vowelCount=0;
             for(int i=0; i<cleanText.Length-1; i++)
@@ -128,7 +129,75 @@ namespace Interview
             }
         }
 
-        
+        public bool IsEmailSyntaxCorrect(string text)
+        {
+            //^[^@ ]+@[^@ ]+\.[^@ \.]{2,}$
+            return Regex.IsMatch(text, @"^[^@ ]+@[^@ \.]{2,}");//cant start with "@" or empty space, 
+                                                               //must have an "@" followed by atleast 2 chars and a "." with at least 2 chars
+     
+        }
+
+        public bool HasMultipleElem(int[] array)
+        {
+            HashSet<int> unique = new HashSet<int> ();
+
+            foreach(int i in array)
+            {
+                if(unique.Contains(i))
+                {
+                    return true;
+                }
+                else
+                {
+                    unique.Add(i);  
+                }
+                    
+            }
+            return false;
+            
+        }
+
+        public bool IsValidSudoku(char[][] board)
+        {
+            var rows = new Dictionary<int, HashSet<char>>();
+            var columun = new Dictionary<int, HashSet<char>>(); 
+            var grid = new Dictionary<(int,int), HashSet<char>>();
+
+            for(int r =0;r<9;r++)
+            {
+                rows[r] = new HashSet<char>();
+                for(int c=0;c<9;c++)
+                {
+                    if(!columun.ContainsKey(c))
+                    {
+                        columun[c] = new HashSet<char>();
+                    }
+                    if (!grid.ContainsKey((r/3, c/3)))
+                    {
+                        grid[(r/3,c/3)] = new HashSet<char> ();
+                    }
+
+                    if (board[r][c] == '.')
+                    {
+                        continue;
+                    }
+
+                    if (rows[r].Contains(board[r][c]) || columun[c].Contains(board[r][c])||
+                        grid[(r/3, c / 3)].Contains(board[r][c]))
+                    {
+                        return false;
+                    }
+
+                    rows[r].Add(board[r][c]);
+                    columun[c].Add(board[r][c]);
+                    grid[(r/3, c/3)].Add(board[r][c]);  
+          
+                }
+            }
+            return true;
+        }
+
+
     }
 }
 

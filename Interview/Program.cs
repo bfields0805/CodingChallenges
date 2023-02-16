@@ -14,6 +14,8 @@ namespace Interview
             Console.WriteLine(iq.ReverseWordsInString("Hello world"));
             Console.WriteLine(iq.CountVowelsAndCosonants("hello world!!"));
             Console.WriteLine(iq.countMultipleElem(list));
+            Console.WriteLine(iq.IsEmailSyntaxCorrect("bryon@gmail.com"));
+            Console.WriteLine(iq.IsEmailSyntaxCorrect("@123"));
 
         }
     }
